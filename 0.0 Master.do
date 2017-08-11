@@ -9,4 +9,4 @@ global missings .a "DK" .b "refused" .c "filter skip NO" ///
 do "$dir\code\0 definitions.do"
 
 do "$code\1 data prep.do"
-do "$code\2 analysis.do"
+do "$code\2.1 analysis.do"
