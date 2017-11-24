@@ -307,6 +307,36 @@ test _subpop_3-_subpop_4== _subpop_6-_subpop_5
 
 //YES!
 
+//subgroup analysis: age? education?
+
+use "$data\indivwave", clear
+bysort id: keep if _n==1
+keep gebjaar OPLCAT id
+merge 1:m id using "$data\dat_condit_final", keep(match) nogen
+
+svyset id
+svy: reg filter c.OPLCAT##i.wave
+margins ,dydx(wave)
+
+//No dependence of conditioning effect on education
+svy: reg filter wave if OPLCAT==1
+svy: reg filter wave if OPLCAT==2
+svy: reg filter wave if OPLCAT==3
+svy: reg filter wave if OPLCAT==4
+svy: reg filter wave if OPLCAT==5
+svy: reg filter wave if OPLCAT==6
+
+keep if wave==1
+svy: reg filter i.format if OPLCAT==1
+svy: reg filter i.format if OPLCAT==2
+svy: reg filter i.format if OPLCAT==3
+svy: reg filter i.format if OPLCAT==4
+svy: reg filter i.format if OPLCAT==5
+svy: reg filter i.format if OPLCAT==6
+
+keep if wave==1
+svy: reg filter i.OPLCAT
+
 ********************************************************************************
 ********************************************************************************
 ********************************************************************************
